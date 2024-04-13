@@ -1,18 +1,18 @@
-resource "aws_eip" "weijie-eip" {
+resource "aws_eip" "this" {
   vpc = true
 
   tags = {
-    Name = "weijie-dev-nat"
+    Name = "weijie-${var.env}-nat"
   }
 }
 
-resource "aws_nat_gateway" "weijie-nat" {
-  allocation_id = aws_eip.weijie-eip.id
-  subnet_id     = aws_subnet.weijie_public_ap_southeast_1a.id
+resource "aws_nat_gateway" "this" {
+  allocation_id = aws_eip.this.id
+  subnet_id     = aws_subnet.public[0].id
 
   tags = {
-    Name = "dev-nat"
+    Name = "weijie-${var.env}-nat"
   }
 
-  depends_on = [aws_internet_gateway.weijie-igw]
+  depends_on = [aws_internet_gateway.this]
 }
